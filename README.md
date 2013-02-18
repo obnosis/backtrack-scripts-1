@@ -1,4 +1,4 @@
 Backtrack-Scripts
 =================
 
-This repo contains bash scripts to automate certain things in Backtrack
+Contains bash scripts to automate certain things in Backtrack for example bt5_updater.sh updates certain tools to there lastest versions from there repo's
