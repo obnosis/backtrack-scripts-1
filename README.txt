@@ -1,4 +1,3 @@
-Backtrack-Scripts
-=================
+If you find any bugs or have any feature requests please submit an issuse on the github page
 
-Contains bash scripts to automate certain things in Backtrack for example bt5_updater.sh updates certain tools to there lastest versions from there repo's. These scripts are for backtrack 5 R3 
+https://github.com/L1ghtn1ng/Backtrack-Scripts
