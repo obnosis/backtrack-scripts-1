@@ -262,7 +262,7 @@ case $choice in
      echo
 
      # Number of tests
-     total=19
+     total=21
 
      echo "goofile                   (1/$total)"
      /pentest/enumeration/google/goofile/goofile.py -d $domain -f xls > tmp
@@ -313,7 +313,7 @@ case $choice in
      /pentest/enumeration/theharvester/theHarvester.py -d $domain -b bing > zbing
      echo "     Google               (8/$total)"
      /pentest/enumeration/theharvester/theHarvester.py -d $domain -b google > zgoogle
-     echo "     Google Profiles    (9/$total)"
+     echo "     Google Profiles	  (9/$total)"
      /pentest/enumeration/theharvester/theHarvester.py -d $domain -b google-profiles > zgoogle-profiles
      echo "     Jigsaw               (10/$total)"
      /pentest/enumeration/theharvester/theHarvester.py -d $domain -b jigsaw > zjigsaw
@@ -343,7 +343,7 @@ case $choice in
      # Remove lines that start with -
      grep -v '^-' tmp2 > tmp3
      # Remove blank lines
-     sed '/^$/d' tmp3 > yurlcrazy
+     sed '/^$/d' tmp3 > yurl2
 
      ##############################################################
 
@@ -391,9 +391,31 @@ case $choice in
 
      ##############################################################
 
+     echo "Nmap"
+     echo "     Geolocation          (18/$total)"
+     nmap -Pn -n -T4 --script ip-geolocation-geobytes $domain > tmp
+     egrep -v '{/|geobytes|latency|Nmap|Other|results|SERVICE|shown|Starting}' tmp > tmp2
+     sed 's/|//g' tmp2 > tmp3
+     sed 's/_//g' tmp3 > tmp4
+     # Remove blank lines
+     sed '/^$/d' tmp4 > tmp5
+     # Remove leading whitespace from each line
+     sed 's/^[ \t]*//' tmp5 > zgeolocation
+     echo "     Whois                (19/$total)"
+     nmap -Pn -n -T4 --script whois $domain > tmp
+     egrep -v '{/|geobytes|latency|Nmap|Other|results|Record found|SERVICE|shown|Starting}' tmp > tmp2
+     sed 's/|//g' tmp2 > tmp3
+     sed 's/_//g' tmp3 > tmp4
+     # Remove blank lines
+     sed '/^$/d' tmp4 > tmp5
+     # Remove leading whitespace from each line
+     sed 's/^[ \t]*//' tmp5 > whois1
+
+     ##############################################################
+
      echo
      echo "Whois"
-     echo "     Domain               (18/$total)"
+     echo "     Domain               (20/$total)"
      whois -H $domain > tmp
      # Remove leading whitespace
      sed 's/^[ \t]*//' tmp > tmp2
@@ -424,7 +446,7 @@ case $choice in
      # Remove blank lines from end of file
      awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp12 > whois
 
-     echo "     IP 		  (19/$total)"
+     echo "     IP 		  (21/$total)"
      y=$(ping -c1 -w2 $domain | grep 'PING' | cut -d ')' -f1 | cut -d '(' -f2) ; whois -H $y > tmp
      # Remove leading whitespace
      sed 's/^[ \t]*//' tmp > tmp2
@@ -484,12 +506,12 @@ case $choice in
           echo >> tmp
      fi
 
-     if [ -f yurlcrazy ]; then
-          urlcount=$(wc -l yurlcrazy | cut -d ' ' -f1)
-          echo "URLCrazy        $urlcrazycount" >> zreport
-          echo "URLCrazy ($urlcrazycount)" >> tmp
+     if [ -f yurl2 ]; then
+          urlcount2=$(wc -l yurl2 | cut -d ' ' -f1)
+          echo "Spoofed     $urlcount2" >> zreport
+          echo "Spoofed ($urlcount2)" >> tmp
           echo $break >> tmp
-          cat yurlcrazy >> tmp
+          cat yurl2 >> tmp
           echo >> tmp
      fi
 
@@ -540,10 +562,17 @@ case $choice in
 
      cat tmp >> zreport
 
+     echo "Geolocation" >> zreport
+     echo $break >> zreport
+     cat zgeolocation >> zreport
+     echo >> zreport
+     echo "Whois" >> zreport
+     echo $break >> zreport
+     cat whois1 >> zreport
+     echo >> zreport
      echo "Whois Domain" >> zreport
      echo $break >> zreport
      cat whois >> zreport
-
      echo >> zreport
      echo "Whois IP" >> zreport
      echo $break >> zreport
@@ -583,11 +612,20 @@ case $choice in
           f_Error
      fi
 
+     echo
+     echo $break
+     echo
+
      # Number of tests
-     total=8
+     total=9
+
+     echo "Nmap"
+     echo "     Email                (1/$total)"
+     nmap -Pn -n -T4 -p80 --script http-email-harvest $domain > tmp
+     cat tmp | grep '@' | awk '{print $2}' > zemail
 
      echo
-     echo "dnsenum                   (1/$total)"
+     echo "dnsenum                   (2/$total)"
      /pentest/enumeration/dns/dnsenum/dnsenum.pl --noreverse --threads 10 $domain > tmp 2>/dev/null
      # Remove first 4 lines
      sed '1,4d' tmp > tmp2
@@ -607,22 +645,22 @@ case $choice in
 
      echo
      echo "dnsrecon"
-     echo "     Standard             (2/$total)"
+     echo "     Standard             (3/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -a > zdnsrecon1
-
-     echo "     TLDs (~8m)           (3/$total)"
-     /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t tld > tmp
-     awk '{print $2,$3,$4}' tmp | egrep -v '(Performing|The operation|Records)' > tmp2
-     # Move the second column to the first position
-     awk '{print $2 " " $1 " " $3}' tmp2 > tmp3
-     # Clean up
-     column -t tmp3 | sort -u > zdnsrecon2
 
      echo "     DNSSEC Zone Walk     (4/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t zonewalk > tmp
      egrep -v '(Performing|Getting SOA|records found)' tmp > tmp2
      sed 's/will be used//g' tmp2 > tmp3
-     sed 's/\[\*\] //g' tmp3 > zdnsrecon3
+     sed 's/\[\*\] //g' tmp3 > zdnsrecon2
+
+     echo "     TLDs (~8m)           (5/$total)"
+     /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t tld > tmp
+     awk '{print $2,$3,$4}' tmp | egrep -v '(Performing|The operation|Records)' > tmp2
+     # Move the second column to the first position
+     awk '{print $2 " " $1 " " $3}' tmp2 > tmp3
+     # Clean up
+     column -t tmp3 | sort -u > zdnsrecon3
 
 #    echo "     Sub-domains          (#/$total)"
 #    /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t brt -D /pentest/enumeration/dns/dnsrecon/namelist.txt -f > tmp
@@ -635,23 +673,23 @@ case $choice in
 
      echo
      echo "Traceroute"
-     echo "     UDP                  (5/$total)"
+     echo "     UDP                  (6/$total)"
      echo "UDP" > tmp
      traceroute $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      echo >> tmp
      echo "ICMP ECHO" >> tmp
-     echo "     ICMP ECHO            (6/$total)"
+     echo "     ICMP ECHO            (7/$total)"
      traceroute -I $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      echo >> tmp
      echo "TCP SYN" >> tmp
-     echo "     TCP SYN              (7/$total)"
+     echo "     TCP SYN              (8/$total)"
      traceroute -T $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      grep -v 'traceroute' tmp > tmp2
      # Remove blank lines from end of file
      awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp2 > ztraceroute
 
      echo
-     echo "Load Balancing Detector   (8/$total)"
+     echo "Load Balancing Detector   (9/$total)"
      /pentest/enumeration/web/lbd/lbd.sh $domain > tmp 2>/dev/null
      egrep -v '(Checks|Written|Might)' tmp > tmp2
      # Remove leading whitespace from file
@@ -667,17 +705,21 @@ case $choice in
      echo $domain >> zreport
      date +%A" - "%B" "%d", "%Y >> zreport
      echo >> zreport
+     echo "Email" >> zreport
+     echo "==============================" >> zreport
+     cat zemail >> zreport
+     echo >> zreport
      cat zdnsenum >> zreport
      echo >> zreport
      echo "Standard" >> zreport
      echo "==============================" >> zreport
      cat zdnsrecon1 >> zreport
      echo >> zreport
-     echo "Top Level Domains" >> zreport
+     echo "DNSSEC Zone Walk" >> zreport
      echo "==============================" >> zreport
      cat zdnsrecon2 >> zreport
      echo >> zreport
-     echo "DNSSEC Zone Walk" >> zreport
+     echo "Top Level Domains" >> zreport
      echo "==============================" >> zreport
      cat zdnsrecon3 >> zreport
      echo >> zreport
@@ -994,6 +1036,7 @@ fi
 
 echo $cidr > tmp-list
 location=tmp-list
+
 echo
 echo -n "Do you have an exclusion list? (y/N) "
 read ExFile
@@ -2819,4 +2862,5 @@ esac
 }
 
 done
+
 
