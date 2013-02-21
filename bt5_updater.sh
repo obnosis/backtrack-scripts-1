@@ -49,6 +49,8 @@ echo -e "\e[1;31m20. Beef\e[0m"
 echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
 echo -e "\e[1;31m22. UpdateAll\e[0m"
 echo
+echo -e "\e[1;31m99. UpdateScripts\e[0m"
+echo
 echo -e "\e[1;31m0. Exit\e[0m"
 echo
 echo -e "\e[0;36m[*]Created By Jay Townsend aka L1ghtn1ng[*]\e[0m"
@@ -323,12 +325,23 @@ recon
 ghost
 beef
 spf
+script_update
+}
+
+script_update()
+{ 
+	echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
+	cd /root/Backtrack-Scripts; 
+	git pull;
+	sleep 2;
+	cd	
 }
 
 error()
 {	
 	echo
-	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from 0-22, Returning to menu\e[0m"
+	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from 0-22 or 99, Returning to menu\e[0m"
+	sleep 5
 }
 
 ######################################################## End of functions ########################################################################################
@@ -405,6 +418,9 @@ case $option in
 	;;
 	22)
 	updateall
+	;;
+	99)
+	script_update
 	;;
 	0)
 	break
