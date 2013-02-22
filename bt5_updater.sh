@@ -5,7 +5,7 @@
 #
 #
 #
-menu()
+banner()
 {
 clear
 echo -e "\e[0;32m
@@ -24,7 +24,40 @@ echo -e "\e[0;32m
 #     # #       #     # #######    #    #       #   #   
 #     # #       #     # #     #    #    #       #    #  
  #####  #       ######  #     #    #    ####### #     #\e[0m"
+echo
+echo -e "\e[0;36m[*]Created By Jay Townsend aka L1ghtn1ng[*]\e[0m"
+}
 
+
+menu()
+{
+banner
+echo                   
+echo -e "\e[1;31m1. Update Tools Menu\e[0m"
+echo
+echo -e "\e[1;31m0. Exit\e[0m"
+echo
+echo
+echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
+
+read option
+
+case $option in
+	1)
+	toolmenu
+	;;
+	0)
+	break
+	;;
+	*)
+	error
+	;;
+esac 
+}
+
+toolmenu()
+{
+banner
 echo                   
 echo -e "\e[1;31m1. Aircrack\e[0m"
 echo -e "\e[1;31m2. Wpscan\e[0m"
@@ -47,17 +80,93 @@ echo -e "\e[1;31m18. Recon-ng\e[0m"
 echo -e "\e[1;31m19. GhostPhisher\e[0m"
 echo -e "\e[1;31m20. Beef\e[0m"
 echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
-echo -e "\e[1;31m22. UpdateAll\e[0m"
+echo -e "\e[1;31m22. UpdateScripts\e[0m"
+echo -e "\e[1;31m23. UpdateAll\e[0m"
 echo
-echo -e "\e[1;31m99. UpdateScripts\e[0m"
+echo -e "\e[1;31m99. Return to main menu\e[0m"
 echo
-echo -e "\e[1;31m0. Exit\e[0m"
-echo
-echo -e "\e[0;36m[*]Created By Jay Townsend aka L1ghtn1ng[*]\e[0m"
 echo
 echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
 
 read option
+
+case $option in
+	1)
+	aircrack
+	;;
+	2)
+	wpscan
+	;;
+	3)
+	exploitdb
+	;;
+	4)
+	fasttrack
+	;;
+	5)
+	sqlmap
+	;;
+	6)
+	giskismet
+	;;
+	7)
+	w3af
+	;;
+	8)
+	nikto
+	;;
+	9)
+	subterfuge
+	;;
+	10)
+	fern
+	;;
+	11)
+	Set
+	;;
+	12)
+	joomscan
+	;;
+	13)
+	msf
+	;;
+	14)
+	bt
+	;;
+	15)
+	jigsaw
+	;;
+	16)
+	dnsrecon
+	;;
+	17)
+	theharvester
+	;;
+	18)
+	recon
+	;;
+	19)
+	ghost
+	;;
+	20)
+	beef
+	;;
+	21)
+	spf
+	;;
+	22)
+	script_update
+	;;
+	23)
+	updateall
+	;;
+	99)
+	menu
+	;;
+	*)
+	error
+	;;
+esac
 }
 
 aircrack()
@@ -340,93 +449,15 @@ script_update()
 error()
 {	
 	echo
-	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from 0-22 or 99, Returning to menu\e[0m"
+	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from menu, Returning to menu\e[0m"
 	sleep 5
 }
 
 ######################################################## End of functions ########################################################################################
 
-############################################################## Menu ##############################################################################################
+############################################################## Program starts ####################################################################################
 
-while :
+while : 
 do
 menu
-
-case $option in
-	1)
-	aircrack
-	;;
-	2)
-	wpscan
-	;;
-	3)
-	exploitdb
-	;;
-	4)
-	fasttrack
-	;;
-	5)
-	sqlmap
-	;;
-	6)
-	giskismet
-	;;
-	7)
-	w3af
-	;;
-	8)
-	nikto
-	;;
-	9)
-	subterfuge
-	;;
-	10)
-	fern
-	;;
-	11)
-	Set
-	;;
-	12)
-	joomscan
-	;;
-	13)
-	msf
-	;;
-	14)
-	bt
-	;;
-	15)
-	jigsaw
-	;;
-	16)
-	dnsrecon
-	;;
-	17)
-	theharvester
-	;;
-	18)
-	recon
-	;;
-	19)
-	ghost
-	;;
-	20)
-	beef
-	;;
-	21)
-	spf
-	;;
-	22)
-	updateall
-	;;
-	99)
-	script_update
-	;;
-	0)
-	break
-	;;
-	*)
-	error
-	;;
-esac
 done
