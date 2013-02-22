@@ -80,8 +80,9 @@ echo -e "\e[1;31m18. Recon-ng\e[0m"
 echo -e "\e[1;31m19. GhostPhisher\e[0m"
 echo -e "\e[1;31m20. Beef\e[0m"
 echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
-echo -e "\e[1;31m22. UpdateScripts\e[0m"
-echo -e "\e[1;31m23. UpdateAll\e[0m"
+echo -e "\e[1;31m22. Scripts\e[0m"
+echo -e "\e[1;31m23. Nmap\e[0m"
+echo -e "\e[1;31m24. UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99. Return to main menu\e[0m"
 echo
@@ -158,6 +159,9 @@ case $option in
 	script_update
 	;;
 	23)
+	nmap
+	;;
+	24)
 	updateall
 	;;
 	99)
@@ -411,6 +415,66 @@ else
 fi 
 }
 
+script_update()
+{ 
+	echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
+	cd /root/Backtrack-Scripts; 
+	git pull;
+	sleep 2;
+	cd	
+}
+
+nmap()
+{
+if [ -d /opt/nmap-svn/.svn ]; then
+
+	echo -e "\e[1;32mUpdating Nmap\e[0m"
+	cd /opt/nmap-svn/;
+	svn cleanup;
+	svn update;
+	cd;
+	cp /opt/nmap-svn/nmap /usr/local/bin/;
+	cp /opt/nmap-svn/nmap-mac-prefixes /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-os-db /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-payloads /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-protocols /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-rpc /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-service-probes /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nmap-services /usr/local/share/nmap/;
+	cp /opt/nmap-svn/nse_main.lua /usr/local/share/nmap/;
+	cp -r /opt/nmap-svn/nselib/ /usr/local/share/nmap/;
+	cp -r /opt/nmap-svn/scripts/ /usr/local/share/nmap/ 
+else
+	echo -e "\e[1;33mRemoving nmap files and folders\e[0m"
+	rm -rf /root/.zenmap/
+	rm -rf /opt/nmap-svn/
+	rm -rf /usr/local/share/ncat/
+	rm -rf /usr/local/share/nmap/
+	rm -rf /usr/local/share/zenmap/
+	rm /usr/local/bin/ncat
+	rm /usr/local/bin/ndiff
+	rm /usr/local/bin/nmap
+	rm /usr/local/bin/nmap-update
+	rm /usr/local/bin/nmapfe
+	rm /usr/local/bin/nping
+	rm /usr/local/bin/uninstall_zenmap
+	rm /usr/local/bin/xnmap
+	rm /usr/local/bin/zenmap
+	rm /usr/local/share/nmap
+	rm /usr/local/share/zenmap
+
+	apt-get remove -y nmap
+	echo
+	echo -e "\e[1;33mInstalling nmap from svn\e[0m"
+	svn co https://svn.nmap.org/nmap/ /opt/nmap-svn/
+	cd /opt/nmap-svn/;
+	./configure && make && make install
+	echo
+	echo -e "\e[1;32mUpdating locate db\e[0m"
+	updatedb
+fi
+}
+
 updateall()
 {
 aircrack
@@ -435,21 +499,13 @@ ghost
 beef
 spf
 script_update
-}
-
-script_update()
-{ 
-	echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
-	cd /root/Backtrack-Scripts; 
-	git pull;
-	sleep 2;
-	cd	
+nmap
 }
 
 error()
 {	
 	echo
-	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from menu, Returning to menu\e[0m"
+	echo -e "\e[1;31mError, That is not valid Input or Choice, Returning to menu\e[0m"
 	sleep 5
 }
 
