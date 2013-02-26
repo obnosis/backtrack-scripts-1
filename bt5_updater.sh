@@ -302,9 +302,18 @@ echo -e "\e[1;32mUpdating JoomScan\e[0m"
 
 msf()
 {
-echo -e "\e[1;32mUpdating Metasploit\e[0m"
-	msfupdate
+if [ -d /opt/metasploit/msf3/.git ]; then 
+	echo -e "\e[1;32mUpdating Metasploit\e[0m"
+	cd /opt/metasploit/msf3/; 
+	git pull;
+	cd
+else 
+	echo -e "\e[1;33mInstalling Metasploit\e[0m"
+	rm -rf /opt/metasploit/msf3/;
+	git clone git://github.com/rapid7/metasploit-framework.git /opt/metasploit/msf3/
+fi	
 }
+
 bt()
 {
 echo -e "\e[1;32mUpdating Backtrack\e[0m"
@@ -505,7 +514,7 @@ nmap
 error()
 {	
 	echo
-	echo -e "\e[1;31mError, That is not valid Input or Choice, Returning to menu\e[0m"
+	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from menu, Returning to menu\e[0m"
 	sleep 5
 }
 
