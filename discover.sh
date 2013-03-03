@@ -32,7 +32,7 @@ echo "______  ___ ______ ______  _____  _    _ ______  _____"
 echo "|     \  |  |____  |      |     |  \  /  |_____ |____/"
 echo "|_____/ _|_ _____| |_____ |_____|   \/   |_____ |    \_"
 echo
-echo "By Lee Baird"
+echo "By Lee Baird & Modified By Jay Townsend"
 echo
 echo
 }
