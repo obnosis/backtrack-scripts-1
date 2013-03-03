@@ -82,7 +82,8 @@ echo -e "\e[1;31m20. Beef\e[0m"
 echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
 echo -e "\e[1;31m22. Scripts\e[0m"
 echo -e "\e[1;31m23. Nmap\e[0m"
-echo -e "\e[1;31m24. UpdateAll\e[0m"
+echo -e "\e[1;31m24. Wifite\e[0m"
+echo -e "\e[1;31m25. UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99. Return to main menu\e[0m"
 echo
@@ -162,6 +163,9 @@ case $option in
 	nmap
 	;;
 	24)
+	wifite
+	;;
+	25)
 	updateall
 	;;
 	99)
@@ -483,6 +487,20 @@ else
 	updatedb
 fi
 }
+wifite()
+{
+if [ -d /pentest/wireless/wifite/.svn ]; then 
+	echo -e "\e[1;32mUpdating WiFite\e[0m"
+	cd /pentest/wireless/wifite; 
+	svn cleanup;
+	svn update;
+	cd
+else 
+	echo -e "\e[1;33mInstalling WiFite\e[0m"
+	rm -rf /pentest/wireless/wifite/;
+	svn co http://wifite.googlecode.com/svn/trunk/ /pentest/wireless/wifite/
+fi
+}
 
 updateall()
 {
@@ -509,6 +527,7 @@ beef
 spf
 script_update
 nmap
+wifite
 }
 
 error()

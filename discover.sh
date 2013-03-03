@@ -262,7 +262,7 @@ case $choice in
      echo
 
      # Number of tests
-     total=21
+     total=20
 
      echo "goofile                   (1/$total)"
      /pentest/enumeration/google/goofile/goofile.py -d $domain -f xls > tmp
@@ -401,21 +401,13 @@ case $choice in
      sed '/^$/d' tmp4 > tmp5
      # Remove leading whitespace from each line
      sed 's/^[ \t]*//' tmp5 > zgeolocation
-     echo "     Whois                (19/$total)"
-     nmap -Pn -n -T4 --script whois $domain > tmp
-     egrep -v '{/|geobytes|latency|Nmap|Other|results|Record found|SERVICE|shown|Starting}' tmp > tmp2
-     sed 's/|//g' tmp2 > tmp3
-     sed 's/_//g' tmp3 > tmp4
-     # Remove blank lines
-     sed '/^$/d' tmp4 > tmp5
-     # Remove leading whitespace from each line
-     sed 's/^[ \t]*//' tmp5 > whois1
+
 
      ##############################################################
 
      echo
      echo "Whois"
-     echo "     Domain               (20/$total)"
+     echo "     Domain               (19/$total)"
      whois -H $domain > tmp
      # Remove leading whitespace
      sed 's/^[ \t]*//' tmp > tmp2
@@ -446,7 +438,7 @@ case $choice in
      # Remove blank lines from end of file
      awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp12 > whois
 
-     echo "     IP 		  (21/$total)"
+     echo "     IP 		  (20/$total)"
      y=$(ping -c1 -w2 $domain | grep 'PING' | cut -d ')' -f1 | cut -d '(' -f2) ; whois -H $y > tmp
      # Remove leading whitespace
      sed 's/^[ \t]*//' tmp > tmp2
@@ -566,10 +558,6 @@ case $choice in
      echo $break >> zreport
      cat zgeolocation >> zreport
      echo >> zreport
-     echo "Whois" >> zreport
-     echo $break >> zreport
-     cat whois1 >> zreport
-     echo >> zreport
      echo "Whois Domain" >> zreport
      echo $break >> zreport
      cat whois >> zreport
@@ -640,14 +628,18 @@ case $choice in
      sed '/=================================================/{n; /.*/d}' tmp7 > tmp8
      # Find lines that contain Bind Version, and delete the previous line
      printf '%s\n' 'g/Bind Version/-1d' w | ed -s tmp8
+     # Clean up
+     sed $'s/^\033...//' tmp8 > tmp9
      # Remove blank lines from end of file
-     awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp8 > zdnsenum
+     awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp9 > zdnsenum
 
      echo
      echo "dnsrecon"
      echo "     Standard             (3/$total)"
-     /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -a > zdnsrecon1
-
+     /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -a > tmp
+     egrep -v '(Performing General|Removing any)' tmp > tmp2
+     # Remove first 4 characters from each line
+     sed 's/^....//' tmp2 > zdnsrecon1
      echo "     DNSSEC Zone Walk     (4/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t zonewalk > tmp
      egrep -v '(Performing|Getting SOA|records found)' tmp > tmp2
@@ -2759,50 +2751,6 @@ msfconsole -r /opt/scripts/resource/listener.rc
 
 ##############################################################################################################
 
-f_Reinstall_nmap(){
-clear
-echo
-echo
-echo -e "\e[1;34mRemoving nmap files and folders.\e[0m"
-
-rm -rf /root/.zenmap/
-rm -rf /root/nmap-svn/
-rm -rf /usr/local/share/ncat/
-rm -rf /usr/local/share/nmap/
-rm -rf /usr/local/share/zenmap/
-
-rm /usr/local/bin/ncat
-rm /usr/local/bin/ndiff
-rm /usr/local/bin/nmap
-rm /usr/local/bin/nmap-update
-rm /usr/local/bin/nmapfe
-rm /usr/local/bin/nping
-rm /usr/local/bin/uninstall_zenmap
-rm /usr/local/bin/xnmap
-rm /usr/local/bin/zenmap
-
-rm /usr/local/share/nmap
-rm /usr/local/share/zenmap
-
-apt-get remove nmap
-
-echo
-echo -e "\e[1;34mInstalling nmap from svn.\e[0m"
-svn co https://svn.nmap.org/nmap/ /root/nmap-svn/
-cd /root/nmap-svn/
-./configure && make && make install
-
-echo
-echo -e "\e[1;34mUpdating locate db.\e[0m"
-updatedb
-
-echo
-echo
-read -p "Press <return> to continue."
-}
-
-##############################################################################################################
-
 # Loop forever
 while :
 do
@@ -2834,9 +2782,8 @@ echo "10. SSL Check"
 echo
 echo -e "\e[1;34mMISC\e[0m"
 echo "11. Crack WiFi"
-echo "12. Reinstall nmap"
-echo "13. Start a Metasploit listener"
-echo "14. Exit"
+echo "12. Start a Metasploit listener"
+echo "13. Exit"
 echo
 echo -n "Choice: "
 read choice
@@ -2853,9 +2800,8 @@ case $choice in
      9) f_Nikto;;
      10) f_SSLcheck;;
      11) ./crack-wifi.sh;;
-     12) f_Reinstall_nmap;;
-     13) f_Listener;;
-     14) clear && exit;;
+     12) f_Listener;;
+     13) clear && exit;;
      99) f_Updates;;
      *) f_Error;;
 esac
