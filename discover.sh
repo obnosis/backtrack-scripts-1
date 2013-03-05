@@ -32,7 +32,7 @@ echo "______  ___ ______ ______  _____  _    _ ______  _____"
 echo "|     \  |  |____  |      |     |  \  /  |_____ |____/"
 echo "|_____/ _|_ _____| |_____ |_____|   \/   |_____ |    \_"
 echo
-echo "By Lee Baird & Modified By Jay Townsend"
+echo "By Lee Baird & Modified By Jay Townsend aka L1ghtn1ng"
 echo
 echo
 }
@@ -361,7 +361,7 @@ case $choice in
      # Change to lower case
      cat tmp6 | tr '[A-Z]' '[a-z]' > tmp7
      # Clean up
-     egrep -v '(account|administrator|administrative|advanced|advertising|american|analyst|antivirus|apple seems|application|applications|article|asian|attorney|australia|automotive|bbc|berlin|between|billion|biometrics|bizspark|breaches|broker|business|buyer|california|can i help|cannot|capital|career|carrying|certified|challenger|championship|change|chapter|charge|china|chinese|cloud|code|college|columbia|communications|community|company pages|competition|competitive|computer|concept|conference|config|connections|construction|consultant|contributor|controlling|coordinator|corporation|creative|croatia|crm|dallas|day care|death toll|department|designer|developer|developing|development|devine|diploma|director|disclosure|dispute|divisions|dos poc|download|drivers|during|economy|ecovillage|education|effect|electronic|emails|embargo|empower|end user|energy|engineer|enterprise|entertainment|entreprises|entrepreneur|environmental|error page|ethical|example|excellence|executive|expertzone|exploit|facebook|faculty|fall edition|fast track|fatherhood|fbi|federal|filmmaker|finance|financial|forensic|found|freelance|from|frontiers in tax|full|germany|get control|global|google|government|graphic|greater|hackers|hacking|hardening|hawaii|hazing|headquarters|healthcare|history|homepage|hospital|house|hurricane|idc|in the news|index of|information|innovation|installation|insurers|integrated|international|internet|instructor|investigation|investment|israel|japan|job|kelowna|laptops|letter|licensing|lighting|limitless|liveedu|llp|ltd|lsu|luscous|malware|managed|management|manager|managing|mastering|md|meta tags|metro|microsoft|mitigation|money|monitoring|more coming|negative|networking|new user|newspaper|next page|nitrogen|occupied|office|online|outbreak|owners|partner|pathology|people|philippines|photo|places|planning|portfolio|preparatory|president|principal|print|private|producer|product|professional|professor|profile|project|publichealth|published|questions|redeeming|redirecting|register|regulation|remote|report|republic|research|rising|sales|satellite|save the date|school|scheduling|search|searching|secured|security|secretary|secrets|see more|selection|senior|service|services|software|solutions|source|special|statistics|strategy|student|superheroines|supervisor|support|switching|system|systems|targeted|technical|technology|tester|textoverflow|theater|tit for tat|toolbook|tools|traditions|trafficking|trojan|twitter|training|ts|types of scams|unclaimed|underground|university|untitled|view|Violent|virginia bar|voice|volume|wanted|web search|website|welcome|when the|whiskey|windows|workers|world|www|xbox)' tmp7 > tmp8
+     egrep -v '(account|administrator|administrative|advanced|advertising|american|analyst|antivirus|apple seems|application|applications|article|asian|attorney|australia|automotive|bbc|berlin|between|billion|biometrics|bizspark|breaches|broker|business|buyer|california|can i help|cannot|capital|career|carrying|certified|challenger|championship|change|chapter|charge|china|chinese|cloud|code|college|columbia|communications|community|company pages|competition|competitive|computer|concept|conference|config|connections|construction|consultant|contributor|controlling|coordinator|corporation|creative|croatia|crm|dallas|day care|death toll|department|designer|developer|developing|development|devine|diploma|director|disclosure|dispute|divisions|dos poc|download|drivers|during|economy|ecovillage|editor|education|effect|electronic|emails|embargo|empower|end user|energy|engineer|enterprise|entertainment|entreprises|entrepreneur|environmental|error page|ethical|example|excellence|executive|expertzone|exploit|facebook|faculty|fall edition|fast track|fatherhood|fbi|federal|filmmaker|finance|financial|forensic|found|freelance|from|frontiers in tax|full|germany|get control|global|google|government|graphic|greater|hackers|hacking|hardening|hawaii|hazing|headquarters|healthcare|history|homepage|hospital|house|hurricane|idc|in the news|index of|information|innovation|installation|insurers|integrated|international|internet|instructor|investigation|investment|israel|japan|job|kelowna|laptops|letter|licensing|lighting|limitless|liveedu|llp|ltd|lsu|luscous|malware|managed|management|manager|managing|mastering|md|medical|meta tags|metro|microsoft|mitigation|money|monitoring|more coming|negative|network|networking|new user|newspaper|next page|nitrogen|nyc|occupied|office|online|outbreak|owners|partner|pathology|people|philippines|photo|places|planning|portfolio|preparatory|president|principal|print|private|producer|product|professional|professor|profile|project|publichealth|published|questions|redeeming|redirecting|register|regulation|remote|report|republic|research|rising|sales|satellite|save the date|school|scheduling|search|searching|secured|security|secretary|secrets|see more|selection|senior|service|services|software|solutions|source|special|statistics|strategy|student|superheroines|supervisor|support|switching|system|systems|targeted|technical|technology|tester|textoverflow|theater|tit for tat|toolbook|tools|traditions|trafficking|trojan|twitter|training|ts|types of scams|unclaimed|underground|university|untitled|view|Violent|virginia bar|voice|volume|wanted|web search|website|welcome|when the|whiskey|windows|workers|world|www|xbox)' tmp7 > tmp8
      # Remove leading and trailing whitespace from each line
      sed 's/^[ \t]*//;s/[ \t]*$//' tmp8 > tmp9
      # Remove lines that contain a single word
@@ -610,7 +610,12 @@ case $choice in
      echo "Nmap"
      echo "     Email                (1/$total)"
      nmap -Pn -n -T4 -p80 --script http-email-harvest $domain > tmp
-     cat tmp | grep '@' | awk '{print $2}' > zemail
+     grep '@' tmp | awk '{print $2}' > zemail
+
+     # Check if file is empty
+     if [ ! -s test ]; then 
+          rm zemail
+     fi
 
      echo
      echo "dnsenum                   (2/$total)"
@@ -637,9 +642,11 @@ case $choice in
      echo "dnsrecon"
      echo "     Standard             (3/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -a > tmp
-     egrep -v '(Performing General|Removing any)' tmp > tmp2
+     egrep -v '(Enumerating SRV Records|Failed|filtered|Performing General|NS Servers found|Records Found|Removing any|Resolving|TCP Open)' tmp > tmp2
      # Remove first 4 characters from each line
-     sed 's/^....//' tmp2 > zdnsrecon1
+     sed 's/^....//' tmp2 > tmp3
+     # Remove leading whitespace from each line
+     sed 's/^[ \t]*//' tmp3 > zdnsrecon1
      echo "     DNSSEC Zone Walk     (4/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t zonewalk > tmp
      egrep -v '(Performing|Getting SOA|records found)' tmp > tmp2
@@ -683,7 +690,7 @@ case $choice in
      echo
      echo "Load Balancing Detector   (9/$total)"
      /pentest/enumeration/web/lbd/lbd.sh $domain > tmp 2>/dev/null
-     egrep -v '(Checks|Written|Might)' tmp > tmp2
+     egrep -v '(5.0_Pub|Apache|Checks|Microsoft-IIS|Might|Written)' tmp > tmp2
      # Remove leading whitespace from file
      awk '!d && NF {sub(/^[[:blank:]]*/,""); d=1} d' tmp2 > tmp3
      # Remove leading whitespace from each line
@@ -697,10 +704,13 @@ case $choice in
      echo $domain >> zreport
      date +%A" - "%B" "%d", "%Y >> zreport
      echo >> zreport
-     echo "Email" >> zreport
-     echo "==============================" >> zreport
-     cat zemail >> zreport
-     echo >> zreport
+
+     if [ -f zemail ]; then
+          echo "Email" >> zreport
+          echo "==============================" >> zreport
+          cat zemail >> zreport
+     fi
+
      cat zdnsenum >> zreport
      echo >> zreport
      echo "Standard" >> zreport
@@ -2808,5 +2818,4 @@ esac
 }
 
 done
-
 
