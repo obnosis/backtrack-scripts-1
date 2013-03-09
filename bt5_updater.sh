@@ -83,7 +83,8 @@ echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
 echo -e "\e[1;31m22. Scripts\e[0m"
 echo -e "\e[1;31m23. Nmap\e[0m"
 echo -e "\e[1;31m24. Wifite\e[0m"
-echo -e "\e[1;31m25. UpdateAll\e[0m"
+echo -e "\e[1;31m25. Weevely\e[0m"
+echo -e "\e[1;31m26. UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99. Return to main menu\e[0m"
 echo
@@ -166,6 +167,9 @@ case $option in
 	wifite
 	;;
 	25)
+	weevely
+	;;
+	26)
 	updateall
 	;;
 	99)
@@ -502,6 +506,20 @@ else
 fi
 }
 
+weevely()
+{
+if [ -d /pentest/backdoors/web/weevely/.git ]; then
+	echo -e "\e[1;32mUpdating Weevely\e[0m"
+	cd /pentest/backdoors/web/weevely;
+	git pull;
+	cd
+else
+	echo -e "\e[1;33mInstalling weevely\e[0m"
+	rm -rf /pentest/backdoors/web/weevely;
+	git clone https://github.com/epinna/Weevely.git /pentest/backdoors/web/weevely
+fi 
+}
+
 updateall()
 {
 aircrack
@@ -528,6 +546,7 @@ spf
 script_update
 nmap
 wifite
+weevely
 }
 
 error()
