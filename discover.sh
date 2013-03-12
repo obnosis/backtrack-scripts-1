@@ -361,7 +361,7 @@ case $choice in
      # Change to lower case
      cat tmp6 | tr '[A-Z]' '[a-z]' > tmp7
      # Clean up
-     egrep -v '(account|administrator|administrative|advanced|advertising|american|analyst|antivirus|apple seems|application|applications|article|asian|attorney|australia|automotive|bbc|berlin|between|billion|biometrics|bizspark|breaches|broker|business|buyer|california|can i help|cannot|capital|career|carrying|certified|challenger|championship|change|chapter|charge|china|chinese|cloud|code|college|columbia|communications|community|company pages|competition|competitive|computer|concept|conference|config|connections|construction|consultant|contributor|controlling|coordinator|corporation|creative|croatia|crm|dallas|day care|death toll|department|designer|developer|developing|development|devine|diploma|director|disclosure|dispute|divisions|dos poc|download|drivers|during|economy|ecovillage|editor|education|effect|electronic|emails|embargo|empower|end user|energy|engineer|enterprise|entertainment|entreprises|entrepreneur|environmental|error page|ethical|example|excellence|executive|expertzone|exploit|facebook|faculty|fall edition|fast track|fatherhood|fbi|federal|filmmaker|finance|financial|forensic|found|freelance|from|frontiers in tax|full|germany|get control|global|google|government|graphic|greater|hackers|hacking|hardening|hawaii|hazing|headquarters|healthcare|history|homepage|hospital|house|hurricane|idc|in the news|index of|information|innovation|installation|insurers|integrated|international|internet|instructor|investigation|investment|israel|japan|job|kelowna|laptops|letter|licensing|lighting|limitless|liveedu|llp|ltd|lsu|luscous|malware|managed|management|manager|managing|mastering|md|medical|meta tags|metro|microsoft|mitigation|money|monitoring|more coming|negative|network|networking|new user|newspaper|next page|nitrogen|nyc|occupied|office|online|outbreak|owners|partner|pathology|people|philippines|photo|places|planning|portfolio|preparatory|president|principal|print|private|producer|product|professional|professor|profile|project|publichealth|published|questions|redeeming|redirecting|register|regulation|remote|report|republic|research|rising|sales|satellite|save the date|school|scheduling|search|searching|secured|security|secretary|secrets|see more|selection|senior|service|services|software|solutions|source|special|statistics|strategy|student|superheroines|supervisor|support|switching|system|systems|targeted|technical|technology|tester|textoverflow|theater|tit for tat|toolbook|tools|traditions|trafficking|trojan|twitter|training|ts|types of scams|unclaimed|underground|university|untitled|view|Violent|virginia bar|voice|volume|wanted|web search|website|welcome|when the|whiskey|windows|workers|world|www|xbox)' tmp7 > tmp8
+     egrep -v '(account|administrator|administrative|advanced|advertising|american|analyst|antivirus|apple seems|application|applications|article|asian|attorney|australia|automotive|banking|bbc|berlin|between|billion|biometrics|bizspark|breaches|broker|business|buyer|california|can i help|cannot|capital|career|carrying|certified|challenger|championship|change|chapter|charge|china|chinese|cloud|code|college|columbia|communications|community|company pages|competition|competitive|computer|concept|conference|config|connections|construction|consultant|contributor|controlling|coordinator|corporation|creative|croatia|crm|dallas|day care|death toll|department|designer|developer|developing|development|devine|diploma|director|disclosure|dispute|divisions|dos poc|download|drivers|during|economy|ecovillage|editor|education|effect|electronic|emails|embargo|empower|end user|energy|engineer|enterprise|entertainment|entreprises|entrepreneur|environmental|error page|ethical|example|excellence|executive|expertzone|exploit|facebook|faculty|fall edition|fast track|fatherhood|fbi|federal|filmmaker|finance|financial|forensic|found|freelance|from|frontiers in tax|full|germany|get control|global|google|government|graphic|greater|hackers|hacking|hardening|hawaii|hazing|headquarters|healthcare|history|homepage|hospital|house|hurricane|idc|in the news|index of|information|innovation|installation|insurers|integrated|international|internet|instructor|insurance|investigation|investment|investor|israel|japan|job|kelowna|laptops|letter|licensing|lighting|limitless|liveedu|llp|ltd|lsu|luscous|malware|managed|management|manager|managing|mastering|md|medical|meta tags|metro|microsoft|mitigation|money|monitoring|more coming|negative|network|networking|new user|newspaper|next page|nitrogen|nyc|occupied|office|online|outbreak|owners|partner|pathology|people|philippines|photo|places|planning|portfolio|preparatory|president|principal|print|private|producer|product|professional|professor|profile|project|publichealth|published|questions|redeeming|redirecting|register|regulation|remote|report|republic|research|rising|sales|satellite|save the date|school|scheduling|search|searching|secured|security|secretary|secrets|see more|selection|senior|service|services|software|solutions|source|special|statistics|strategy|student|superheroines|supervisor|support|switching|system|systems|targeted|technical|technology|tester|textoverflow|theater|tit for tat|toolbook|tools|traditions|trafficking|treasury|trojan|twitter|training|ts|types of scams|unclaimed|underground|university|untitled|view|Violent|virginia bar|voice|volume|wanted|web search|website|welcome|when the|whiskey|windows|workers|world|www|xbox)' tmp7 > tmp8
      # Remove leading and trailing whitespace from each line
      sed 's/^[ \t]*//;s/[ \t]*$//' tmp8 > tmp9
      # Remove lines that contain a single word
@@ -605,15 +605,15 @@ case $choice in
      echo
 
      # Number of tests
-     total=9
+     total=10
 
      echo "Nmap"
      echo "     Email                (1/$total)"
      nmap -Pn -n -T4 -p80 --script http-email-harvest $domain > tmp
-     grep '@' tmp | awk '{print $2}' > zemail
+     grep '@' tmp | grep -v '%20' | grep -v 'jpg' | awk '{print $2}' | sort -u > zemail
 
      # Check if file is empty
-     if [ ! -s test ]; then 
+     if [ ! -s zemail ]; then 
           rm zemail
      fi
 
@@ -636,59 +636,63 @@ case $choice in
      # Clean up
      sed $'s/^\033...//' tmp8 > tmp9
      # Remove blank lines from end of file
-     awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp9 > zdnsenum
+     awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp9 > tmp10
+     # Remove special character: ^Q
+     tr -d '\021' < tmp10
+     mv tmp10 zdnsenum
 
      echo
      echo "dnsrecon"
      echo "     Standard             (3/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -a > tmp
-     egrep -v '(Enumerating SRV Records|Failed|filtered|Performing General|NS Servers found|Records Found|Removing any|Resolving|TCP Open)' tmp > tmp2
+     egrep -v '(All queries will|Checking for|Could not|Enumerating SRV Records|Failed|filtered|It is resolving|not configured|NS Servers found|Performing General|Records Found|Removing any|Resolving|TCP Open|Trying NS|Wildcard)' tmp > tmp2
      # Remove first 4 characters from each line
      sed 's/^....//' tmp2 > tmp3
      # Remove leading whitespace from each line
-     sed 's/^[ \t]*//' tmp3 > zdnsrecon1
+     sed 's/^[ \t]*//' tmp3 | sort -u | awk '{print $2,$1,$3}' | column -t > zdnsrecon
+
      echo "     DNSSEC Zone Walk     (4/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t zonewalk > tmp
      egrep -v '(Performing|Getting SOA|records found)' tmp > tmp2
      sed 's/will be used//g' tmp2 > tmp3
-     sed 's/\[\*\] //g' tmp3 > zdnsrecon2
+     sed 's/\[\*\] //g' tmp3 > zdnsrecon-walk
 
-     echo "     TLDs (~8m)           (5/$total)"
+     echo "     Sub-domains (~5 min) (5/$total)"
+     /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t brt -D /pentest/enumeration/dns/dnsrecon/namelist.txt -f > tmp
+     sed 's/\[\*\] //g' tmp | egrep -v '(Performing host|Records Found)' > tmp2
+     # Remove leading whitespace from each line
+     sed 's/^[ \t]*//' tmp2 > tmp3
+     # Move the second column to the first position
+     awk '{print $2,$1,$3}' tmp3 > tmp4
+     column -t tmp4 | sort -u > zdnsrecon-sub
+
+     echo "     TLDs (~8 mim)        (6/$total)"
      /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t tld > tmp
      awk '{print $2,$3,$4}' tmp | egrep -v '(Performing|The operation|Records)' > tmp2
      # Move the second column to the first position
-     awk '{print $2 " " $1 " " $3}' tmp2 > tmp3
+     awk '{print $2,$1,$3}' tmp2 > tmp3
      # Clean up
-     column -t tmp3 | sort -u > zdnsrecon3
-
-#    echo "     Sub-domains          (#/$total)"
-#    /pentest/enumeration/dns/dnsrecon/dnsrecon.py -d $domain -t brt -D /pentest/enumeration/dns/dnsrecon/namelist.txt -f > tmp
-#    sed 's/\[\*\] //g' tmp | grep -v 'Performing' | grep -v 'Records' > tmp2
-#    # Remove leading whitespace from each line
-#    sed 's/^[ \t]*//' tmp2 > tmp3
-#    # Move the second column to the first position
-#    awk '{print $2 " " $1 " " $3}' tmp3 > tmp4
-#    column -t tmp4 | sort -u > zdnsrecon-subdomains
+     column -t tmp3 | sort -u > zdnsrecon-tld
 
      echo
      echo "Traceroute"
-     echo "     UDP                  (6/$total)"
+     echo "     UDP                  (7/$total)"
      echo "UDP" > tmp
      traceroute $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      echo >> tmp
      echo "ICMP ECHO" >> tmp
-     echo "     ICMP ECHO            (7/$total)"
+     echo "     ICMP ECHO            (8/$total)"
      traceroute -I $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      echo >> tmp
      echo "TCP SYN" >> tmp
-     echo "     TCP SYN              (8/$total)"
+     echo "     TCP SYN              (9/$total)"
      traceroute -T $domain | awk -F" " '{print $1,$2,$3}' >> tmp
      grep -v 'traceroute' tmp > tmp2
      # Remove blank lines from end of file
      awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp2 > ztraceroute
 
      echo
-     echo "Load Balancing Detector   (9/$total)"
+     echo "Load Balancing Detector   (10/$total)"
      /pentest/enumeration/web/lbd/lbd.sh $domain > tmp 2>/dev/null
      egrep -v '(5.0_Pub|Apache|Checks|Microsoft-IIS|Might|Written)' tmp > tmp2
      # Remove leading whitespace from file
@@ -715,15 +719,19 @@ case $choice in
      echo >> zreport
      echo "Standard" >> zreport
      echo "==============================" >> zreport
-     cat zdnsrecon1 >> zreport
+     cat zdnsrecon >> zreport
      echo >> zreport
      echo "DNSSEC Zone Walk" >> zreport
      echo "==============================" >> zreport
-     cat zdnsrecon2 >> zreport
+     cat zdnsrecon-walk >> zreport
+     echo >> zreport
+     echo "Sub Domains" >> zreport
+     echo "==============================" >> zreport
+     cat zdnsrecon-sub >> zreport
      echo >> zreport
      echo "Top Level Domains" >> zreport
      echo "==============================" >> zreport
-     cat zdnsrecon3 >> zreport
+     cat zdnsrecon-tld >> zreport
      echo >> zreport
      echo "Traceroute" >> zreport
      echo "==============================" >> zreport
@@ -2289,13 +2297,49 @@ case $choice in
           f_Error
      fi
 
+     echo -n "Port (default 80): "
+     read port
+
+     # Check if port number is actually a number
+     echo "$port" | grep -E "^[0-9]+$" > /dev/null
+     isnum=$?
+
+     if [ $isnum -ne 0 ] && [ ${#port} -gt 0 ]; then
+          f_Error
+     fi
+
+     if [ ${#port} -eq 0 ]; then
+          port=80
+     fi
+
+     if [ $port -lt 1 ] || [ $port -gt 65535 ]; then
+          f_Error
+     fi
+
      firefox &
      sleep 2
 
-     for i in $(cat $location); do
-          firefox -new-tab $i &
-          sleep 1
-     done
+     if [ $port -eq 21 ]; then
+          for i in $(cat $location); do
+               firefox -new-tab ftp://$i &
+               sleep 1
+          done
+     elif [ $port -eq 80 ]; then
+          for i in $(cat $location); do
+               firefox -new-tab $i &
+               sleep 1
+          done
+     elif [ $port -eq 443 ]; then
+          for i in $(cat $location); do
+               firefox -new-tab https://$i &
+               sleep 1
+          done
+     else
+          for i in $(cat $location); do
+               firefox -new-tab $i:$port &
+               sleep 1
+          done
+     fi
      ;;
 
      2)
@@ -2375,7 +2419,7 @@ case $choice in
      fi
 
      echo
-     echo -n "Port (default: 80): "
+     echo -n "Port (default 80): "
      read port
      echo
 
@@ -2761,6 +2805,10 @@ msfconsole -r /opt/scripts/resource/listener.rc
 
 ##############################################################################################################
 
+
+
+##############################################################################################################
+
 # Loop forever
 while :
 do
@@ -2818,4 +2866,3 @@ esac
 }
 
 done
-

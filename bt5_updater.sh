@@ -1,7 +1,7 @@
 #!/bin/bash 
-#
-#
-#
+# Please give me credit if
+# You use any of my code
+# Thank you
 #
 #
 #
@@ -34,6 +34,7 @@ menu()
 banner
 echo                   
 echo -e "\e[1;31m1. Update Tools Menu\e[0m"
+echo -e "\e[1;31m2. Run Tools Menu\e[0m"
 echo
 echo -e "\e[1;31m0. Exit\e[0m"
 echo
@@ -45,6 +46,9 @@ read option
 case $option in
 	1)
 	toolmenu
+	;;
+	2)
+	run_tools
 	;;
 	0)
 	break
@@ -84,7 +88,8 @@ echo -e "\e[1;31m22. Scripts\e[0m"
 echo -e "\e[1;31m23. Nmap\e[0m"
 echo -e "\e[1;31m24. Wifite\e[0m"
 echo -e "\e[1;31m25. Weevely\e[0m"
-echo -e "\e[1;31m26. UpdateAll\e[0m"
+echo -e "\e[1;31m26. Hexorbase\e[0m"
+echo -e "\e[1;31m27. UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99. Return to main menu\e[0m"
 echo
@@ -170,7 +175,42 @@ case $option in
 	weevely
 	;;
 	26)
+	hexorbase
+	;;
+	27)
 	updateall
+	;;
+	99)
+	menu
+	;;
+	*)
+	error
+	;;
+esac
+}
+
+run_tools()
+{
+banner
+echo                   
+echo -e "\e[1;31m1. Recon-ng\e[0m"
+echo -e "\e[1;31m2. GhostPhisher\e[0m"
+echo
+echo -e "\e[1;31m99. Return to main menu\e[0m"
+echo
+echo
+echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
+
+read option
+
+case $option in
+	1)
+	cd /pentest/enumeration/recon-ng; 
+	./recon-ng.py
+	;;
+	2)
+	cd /pentest/sniffers/ghost-phisher;
+	./ghost.py
 	;;
 	99)
 	menu
@@ -520,6 +560,21 @@ else
 fi 
 }
 
+hexorbase()
+{
+if [ -d /pentest/database/hexorbase/.svn ]; then 
+	echo -e "\e[1;32mUpdating HexorBase\e[0m"
+	cd /pentest/database/hexorbase;
+	svn cleanup;
+	svn update;
+	cd
+else 
+	echo -e "\e[1;33mInstalling HexorBase\e[0m"
+	rm -rf /pentest/database/hexorbase;
+	svn co http://hexorbase.googlecode.com/svn/HexorBase/ /pentest/database/hexorbase/
+fi
+}
+
 updateall()
 {
 aircrack
@@ -547,13 +602,14 @@ script_update
 nmap
 wifite
 weevely
+hexorbase
 }
 
 error()
 {	
 	echo
 	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from menu, Returning to menu\e[0m"
-	sleep 5
+	sleep 4
 }
 
 ######################################################## End of functions ########################################################################################
