@@ -66,7 +66,6 @@ echo
 echo -e "\e[1;31m1. Aircrack\e[0m"
 echo -e "\e[1;31m2. Wpscan\e[0m"
 echo -e "\e[1;31m3. Exploitdb\e[0m"
-echo -e "\e[1;31m4. Fasttrack\e[0m"
 echo -e "\e[1;31m5. Sqlmap\e[0m"
 echo -e "\e[1;31m6. Giskismet\e[0m"
 echo -e "\e[1;31m7. W3af\e[0m"
@@ -107,9 +106,6 @@ case $option in
 	;;
 	3)
 	exploitdb
-	;;
-	4)
-	fasttrack
 	;;
 	5)
 	sqlmap
@@ -251,12 +247,10 @@ echo -e "\e[1;32mUpdating Exploit-db\e[0m"
 	svn cleanup;
 	svn update;
 	cd
-}
-
-fasttrack()
+}()
 {
-	echo -e "\e[1;32mUpdating Fasttrack\e[0m"
-	cd /pentest/exploits/fasttrack; 
+	echo -e "\e[1;32mUpdatin\e[0m"
+	cd /pentest/exploit; 
 	svn cleanup; 
 	svn update; 
 	cd
@@ -364,7 +358,7 @@ fi
 
 Kali()
 {
-echo -e "\e[1;32mUpdating Backtrack\e[0m"
+echo -e "\e[1;32mUpdating Kali\e[0m"
 	apt-get update; 
 	apt-get upgrade -y; 
 	apt-get dist-upgrade -y; 
@@ -393,13 +387,15 @@ if [ -d /usr/share/dnsrecon/.git ]; then
 	echo -e "\e[1;32mUpdating Dnsrecon\e[0m"
 	cd /usr/share/dnsrecon;
 	git pull;
-	rm -rf /usr/share/applications/dnsrecon;
+	rm  /usr/bin/dnsrecon.py;
+	cp dnsrecon.py /usr/bin
 	cd
 else 
 	echo -e "\e[1;33mInstalling Dnsrecon\e[0m"
 	rm -rf /usr/share/dnsrecon;
-	rm -rf /usr/share/applications/dnsrecon;
+	rm  /usr/bin/dnsrecon.py;
 	git clone git://github.com/darkoperator/dnsrecon.git /usr/share/dnsrecon
+	cp dnsrecon.py /usr/bin
 fi 
 }
 
@@ -476,8 +472,8 @@ fi
 
 script_update()
 { 
-	echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
-	cd /root/Backtrack-Scripts; 
+	echo -e "\e[1;32mUpdating kali-scripts\e[0m"
+	cd /root/kali-scripts; 
 	git pull;
 	sleep 2;
 	cd	
@@ -581,8 +577,7 @@ updateall()
 {
 aircrack
 wpscan
-exploitdb
-fasttrack
+exploitd
 sqlmap
 giskismet
 w3af
@@ -592,7 +587,7 @@ fern
 Set
 joomscan
 msf
-bt
+Kali
 jigsaw
 dnsrecon
 theharvester
@@ -622,4 +617,3 @@ while :
 do
 menu
 done
-
