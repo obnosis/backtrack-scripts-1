@@ -1,7 +1,7 @@
 Backtrack Scripts
 =================
 
-To automate certain aspects in Kali to make your life easier
+To automate certain aspects in Backtrack to make your life easier
 
 To Download
 ===========
