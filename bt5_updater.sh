@@ -76,7 +76,7 @@ echo -e "\e[1;31m10. Fern-wifi-cracker\e[0m"
 echo -e "\e[1;31m11. Set\e[0m"
 echo -e "\e[1;31m12. Joomscan\e[0m"
 echo -e "\e[1;31m13. Metasploit\e[0m"
-echo -e "\e[1;31m14. Kali\e[0m"
+echo -e "\e[1;31m14. Backtrack\e[0m"
 echo -e "\e[1;31m15. Jigsaw\e[0m"
 echo -e "\e[1;31m16. DnsRecon\e[0m"
 echo -e "\e[1;31m17. TheHarvester\e[0m"
@@ -139,7 +139,7 @@ case $option in
 	msf
 	;;
 	14)
-	Kali
+	bt
 	;;
 	15)
 	jigsaw
