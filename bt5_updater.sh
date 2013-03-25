@@ -33,13 +33,13 @@ menu()
 {
 banner
 echo                   
-echo -e "\e[1;31m1. Update Tools Menu\e[0m"
-echo -e "\e[1;31m2. Run Tools Menu\e[0m"
+echo -e "\e[1;31m1) Update Tools Menu\e[0m"
+echo -e "\e[1;31m2) Run Tools Menu\e[0m"
 echo
-echo -e "\e[1;31m0. Exit\e[0m"
+echo -e "\e[1;31m0) Exit\e[0m"
 echo
 echo
-echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
+echo -ne "\e[1;33m[*]Please select a number then [Enter]:\e[0m "
 
 read option
 
@@ -63,38 +63,39 @@ toolmenu()
 {
 banner
 echo                   
-echo -e "\e[1;31m1. Aircrack\e[0m"
-echo -e "\e[1;31m2. Wpscan\e[0m"
-echo -e "\e[1;31m3. Exploitdb\e[0m"
-echo -e "\e[1;31m4. Fasttrack\e[0m"
-echo -e "\e[1;31m5. Sqlmap\e[0m"
-echo -e "\e[1;31m6. Giskismet\e[0m"
-echo -e "\e[1;31m7. W3af\e[0m"
-echo -e "\e[1;31m8. Nikto\e[0m"
-echo -e "\e[1;31m9. subterfuge\e[0m"
-echo -e "\e[1;31m10. Fern-wifi-cracker\e[0m"
-echo -e "\e[1;31m11. Set\e[0m"
-echo -e "\e[1;31m12. Joomscan\e[0m"
-echo -e "\e[1;31m13. Metasploit\e[0m"
-echo -e "\e[1;31m14. Backtrack\e[0m"
-echo -e "\e[1;31m15. Jigsaw\e[0m"
-echo -e "\e[1;31m16. DnsRecon\e[0m"
-echo -e "\e[1;31m17. TheHarvester\e[0m"
-echo -e "\e[1;31m18. Recon-ng\e[0m"
-echo -e "\e[1;31m19. GhostPhisher\e[0m"
-echo -e "\e[1;31m20. Beef\e[0m"
-echo -e "\e[1;31m21. Smartphone-pentest-framework\e[0m"
-echo -e "\e[1;31m22. Scripts\e[0m"
-echo -e "\e[1;31m23. Nmap\e[0m"
-echo -e "\e[1;31m24. Wifite\e[0m"
-echo -e "\e[1;31m25. Weevely\e[0m"
-echo -e "\e[1;31m26. Hexorbase\e[0m"
-echo -e "\e[1;31m27. UpdateAll\e[0m"
+echo -e "\e[1;31m1) Aircrack\e[0m"
+echo -e "\e[1;31m2) Wpscan\e[0m"
+echo -e "\e[1;31m3) Exploitdb\e[0m"
+echo -e "\e[1;31m4) Fasttrack\e[0m"
+echo -e "\e[1;31m5) Sqlmap\e[0m"
+echo -e "\e[1;31m6) Giskismet\e[0m"
+echo -e "\e[1;31m7) W3af\e[0m"
+echo -e "\e[1;31m8) Nikto\e[0m"
+echo -e "\e[1;31m9) subterfuge\e[0m"
+echo -e "\e[1;31m10) Fern-wifi-cracker\e[0m"
+echo -e "\e[1;31m11) Set\e[0m"
+echo -e "\e[1;31m12) Joomscan\e[0m"
+echo -e "\e[1;31m13) Metasploit\e[0m"
+echo -e "\e[1;31m14) Backtrack\e[0m"
+echo -e "\e[1;31m15) Jigsaw\e[0m"
+echo -e "\e[1;31m16) DnsRecon\e[0m"
+echo -e "\e[1;31m17) TheHarvester\e[0m"
+echo -e "\e[1;31m18) Recon-ng\e[0m"
+echo -e "\e[1;31m19) GhostPhisher\e[0m"
+echo -e "\e[1;31m20) Beef\e[0m"
+echo -e "\e[1;31m21) Smartphone-pentest-framework\e[0m"
+echo -e "\e[1;31m22) Scripts\e[0m"
+echo -e "\e[1;31m23) Nmap\e[0m"
+echo -e "\e[1;31m24) Wifite\e[0m"
+echo -e "\e[1;31m25) Weevely\e[0m"
+echo -e "\e[1;31m26) Hexorbase\e[0m"
+echo -e "\e[1;31m27) DnsEnum\e[0m"
+echo -e "\e[1;31m28) UpdateAll\e[0m"
 echo
-echo -e "\e[1;31m99. Return to main menu\e[0m"
+echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
 echo
-echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
+echo -ne "\e[1;33m[*]Please select a number then [Enter]:\e[0m "
 
 read option
 
@@ -178,6 +179,9 @@ case $option in
 	hexorbase
 	;;
 	27)
+	dnsenum
+	;;
+	28)
 	updateall
 	;;
 	99)
@@ -193,13 +197,13 @@ run_tools()
 {
 banner
 echo                   
-echo -e "\e[1;31m1. Recon-ng\e[0m"
-echo -e "\e[1;31m2. GhostPhisher\e[0m"
+echo -e "\e[1;31m1) Recon-ng\e[0m"
+echo -e "\e[1;31m2) GhostPhisher\e[0m"
 echo
-echo -e "\e[1;31m99. Return to main menu\e[0m"
+echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
 echo
-echo -ne "\e[1;33m[*]Please select a number then [Enter]: \e[0m"
+echo -ne "\e[1;33m[*]Please select a number then [Enter]:\e[0m "
 
 read option
 
@@ -246,11 +250,17 @@ fi
 
 exploitdb()
 {
-echo -e "\e[1;32mUpdating Exploit-db\e[0m"
+if [ -d /pentest/exploits/exploitdb/.svn ]; then 
+	echo -e "\e[1;32mUpdating Exploit-db\e[0m"
 	cd /pentest/exploits/exploitdb; 
 	svn cleanup;
 	svn update;
 	cd
+else 
+	echo -e "\e[1;33mInstalling Exploit-db\e[0m"
+	rm -rf /pentest/exploits/exploitdb;
+	svn co svn://svn.exploit-db.com/exploitdb /pentest/exploits/exploitdb/ 
+fi
 }
 
 fasttrack()
@@ -575,6 +585,21 @@ else
 fi
 }
 
+dnsenum()
+{
+if [ -d /pentest/enumeration/dns/dnsenum/.svn ]; then 
+	echo -e "\e[1;32mUpdating DnsEnum\e[0m"
+	cd /pentest/enumeration/dns/dnsenum; 
+	svn cleanup; 
+	svn update;
+	cd
+else 
+	echo -e "\e[1;33mInstalling DnsEnum\e[0m"
+	rm -rf /pentest/enumeration/dns/dnsenum/;
+	svn co http://dnsenum.googlecode.com/svn/trunk/ /pentest/enumeration/dns/dnsenum/
+fi
+}
+
 updateall()
 {
 aircrack
@@ -603,6 +628,7 @@ nmap
 wifite
 weevely
 hexorbase
+dnsenum
 }
 
 error()
