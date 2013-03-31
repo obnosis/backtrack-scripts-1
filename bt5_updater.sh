@@ -518,5 +518,5 @@ sleep 4
 
 while : 
 do
-	menu
+menu
 done
