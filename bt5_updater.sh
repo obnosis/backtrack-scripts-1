@@ -5,8 +5,7 @@
 #
 #
 #
-banner()
-{
+banner(){
 clear
 echo -e "\e[0;32m
 ######  #######    ####### ####### ####### #       
@@ -28,9 +27,7 @@ echo
 echo -e "\e[0;36m[*]Created By Jay Townsend aka L1ghtn1ng[*]\e[0m"
 }
 
-
-menu()
-{
+menu(){
 banner
 echo                   
 echo -e "\e[1;31m1) Update Tools Menu\e[0m"
@@ -45,22 +42,17 @@ read option
 
 case $option in
 	1)
-	toolmenu
-	;;
+	toolmenu;;
 	2)
-	run_tools
-	;;
+	run_tools;;
 	0)
-	break
-	;;
+	break;;
 	*)
-	error
-	;;
+	error;;
 esac 
 }
 
-toolmenu()
-{
+toolmenu(){
 banner
 echo                   
 echo -e "\e[1;31m1) Aircrack\e[0m"
@@ -100,101 +92,40 @@ echo -ne "\e[1;33m[*]Please select a number then [Enter]:\e[0m "
 read option
 
 case $option in
-	1)
-	aircrack
-	;;
-	2)
-	wpscan
-	;;
-	3)
-	exploitdb
-	;;
-	4)
-	fasttrack
-	;;
-	5)
-	sqlmap
-	;;
-	6)
-	giskismet
-	;;
-	7)
-	w3af
-	;;
-	8)
-	nikto
-	;;
-	9)
-	subterfuge
-	;;
-	10)
-	fern
-	;;
-	11)
-	Set
-	;;
-	12)
-	joomscan
-	;;
-	13)
-	msf
-	;;
-	14)
-	bt
-	;;
-	15)
-	jigsaw
-	;;
-	16)
-	dnsrecon
-	;;
-	17)
-	theharvester
-	;;
-	18)
-	recon
-	;;
-	19)
-	ghost
-	;;
-	20)
-	beef
-	;;
-	21)
-	spf
-	;;
-	22)
-	script_update
-	;;
-	23)
-	nmap
-	;;
-	24)
-	wifite
-	;;
-	25)
-	weevely
-	;;
-	26)
-	hexorbase
-	;;
-	27)
-	dnsenum
-	;;
-	28)
-	updateall
-	;;
-	99)
-	menu
-	;;
-	*)
-	error
-	;;
+	1) aircrack;;
+	2) wpscan;;
+	3) exploitdb;;
+	4) fasttrack;;
+	5) sqlmap;;
+	6) giskismet;;
+	7) w3af;;
+	8) nikto;;
+	9) subterfuge;;
+	10) fern;;
+	11) Set;;
+	12) joomscan;;
+	13) msf;;
+	14) bt;;
+	15) jigsaw;;
+	16) dnsrecon;;
+	17) theharvester;;
+	18) recon;;
+	19) ghost;;
+	20) beef;;
+	21) spf;;
+	22) script_update;;
+	23) nmap;;
+	24) wifite;;
+	25) weevely;;
+	26) hexorbase;;
+	27) dnsenum;;
+	28) updateall;;
+	99) menu;;
+	*) error;;
 esac
 }
 
-run_tools()
-{
+run_tools(){
 banner
 echo                   
 echo -e "\e[1;31m1) Recon-ng\e[0m"
@@ -209,11 +140,11 @@ read option
 
 case $option in
 	1)
-	cd /pentest/enumeration/recon-ng; 
+	cd /pentest/enumeration/recon-ng
 	./recon-ng.py
 	;;
 	2)
-	cd /pentest/sniffers/ghost-phisher;
+	cd /pentest/sniffers/ghost-phisher
 	./ghost.py
 	;;
 	99)
@@ -225,291 +156,244 @@ case $option in
 esac
 }
 
-aircrack()
-{
-  echo -e "\e[1;32mUpdating Aircrack-ng\e[0m"
-	cd /pentest/wireless/aircrack-ng;
-	svn cleanup;
-	svn update;
-	cd
+aircrack(){
+echo -e "\e[1;32mUpdating Aircrack-ng\e[0m"
+cd /pentest/wireless/aircrack-ng
+svn cleanup
+svn update
 }
 
-wpscan()
-{
+wpscan(){
 if [ -d /pentest/web/wpscan/.git ]; then 
 	echo -e "\e[1;32mUpdating Wpscan\e[0m"
-	cd /pentest/web/wpscan; 
-	git pull;
-	cd
+	cd /pentest/web/wpscan 
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Wpscan\e[0m"
-	rm -rf /pentest/web/wpscan;
+	rm -rf /pentest/web/wpscan
 	git clone https://github.com/wpscanteam/wpscan.git /pentest/web/wpscan 
 fi
 }
 
-exploitdb()
-{
+exploitdb(){
 if [ -d /pentest/exploits/exploitdb/.svn ]; then 
 	echo -e "\e[1;32mUpdating Exploit-db\e[0m"
-	cd /pentest/exploits/exploitdb; 
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/exploits/exploitdb 
+	svn cleanup
+	svn update
 else 
 	echo -e "\e[1;33mInstalling Exploit-db\e[0m"
-	rm -rf /pentest/exploits/exploitdb;
+	rm -rf /pentest/exploits/exploitdb
 	svn co svn://svn.exploit-db.com/exploitdb /pentest/exploits/exploitdb/ 
 fi
 }
 
-fasttrack()
-{
-	echo -e "\e[1;32mUpdating Fasttrack\e[0m"
-	cd /pentest/exploits/fasttrack; 
-	svn cleanup; 
-	svn update; 
-	cd
+fasttrack(){
+echo -e "\e[1;32mUpdating Fasttrack\e[0m"
+cd /pentest/exploits/fasttrack 
+svn cleanup 
+svn update
 }
 
-sqlmap()
-{
+sqlmap(){
 if [ -d /pentest/database/sqlmap/.git ]; then 
 	echo -e "\e[1;32mUpdating Sqlmap\e[0m"
-	cd /pentest/database/sqlmap; 
-	git pull;
-	cd 
+	cd /pentest/database/sqlmap 
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Sqlmap\e[0m"
-	rm -rf /pentest/database/sqlmap/;
+	rm -rf /pentest/database/sqlmap/
 	git clone git://github.com/sqlmapproject/sqlmap.git /pentest/database/sqlmap/ 
 fi
 }
 
-giskismet()
-{
+giskismet(){
 echo -e "\e[1;32mUpdating GISKismet\e[0m"
-	cd /pentest/wireless/giskismet; 
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/wireless/giskismet 
+	svn cleanup
+	svn update
 }
 
-w3af()
-{
+w3af(){
 echo -e "\e[1;32mUpdating W3af\e[0m"
-	cd /pentest/web/w3af/; 
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/web/w3af/ 
+	svn cleanup
+	svn update
 }
 
-nikto()
-{
+nikto(){
 if [ -d /pentest/web/nikto/.git ]; then 
 	echo -e "\e[1;32mUpdating Nikto\e[0m"
-	cd /pentest/web/nikto;
-	git pull;
-	cd
+	cd /pentest/web/nikto
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Nikto\e[0m"
-	rm -rf /pentest/web/nikto/;
+	rm -rf /pentest/web/nikto/
 	git clone git://github.com/sullo/nikto.git /pentest/web/nikto/ 
 fi
 }
 
-subterfuge()
-{
+subterfuge(){
 echo -e "\e[1;32mUpdating Subterfuge\e[0m"
-	cd /usr/share/subterfuge; 
-	svn cleanup; 
-	svn update; 
-	cd
+	cd /usr/share/subterfuge 
+	svn cleanup
+	svn update 
 }
 
-fern()
-{
+fern(){
 echo -e "\e[1;32mUpdating Fern WiFi Cracker\e[0m"
-	cd /pentest/wireless/fern-wifi-cracker; 
-	svn cleanup; 
-	svn update; 
-	cd
+	cd /pentest/wireless/fern-wifi-cracker
+	svn cleanup
+	svn update
 }
 
-Set()
-{
+Set(){
 if [ -d /pentest/exploits/set/.git ]; then 
 	echo -e "\e[1;32mUpdating SET\e[0m"
-	cd /pentest/exploits/set; 
-	git pull;
-	cd
+	cd /pentest/exploits/set
+	git pull
 else 
 	echo -e "\e[1;33mInstalling SET\e[0m"
-	rm -rf /pentest/exploits/set/;
+	rm -rf /pentest/exploits/set/
 	git clone https://github.com/trustedsec/social-engineer-toolkit/ /pentest/exploits/set/ 
 fi	
 }
 
-joomscan()
-{
+joomscan(){
 echo -e "\e[1;32mUpdating JoomScan\e[0m"
-	cd /pentest/web/joomscan; 
-	./joomscan.pl update; 
-	cd
+	cd /pentest/web/joomscan 
+	./joomscan.pl update
 }
 
-msf()
-{
+msf(){
 if [ -d /opt/metasploit/msf3/.git ]; then 
 	echo -e "\e[1;32mUpdating Metasploit\e[0m"
-	cd /opt/metasploit/msf3/; 
-	git pull;
-	cd
-else 
+	cd /opt/metasploit/msf3/
+	git pull
+else
 	echo -e "\e[1;33mInstalling Metasploit\e[0m"
-	rm -rf /opt/metasploit/msf3/;
+	rm -rf /opt/metasploit/msf3/
 	git clone git://github.com/rapid7/metasploit-framework.git /opt/metasploit/msf3/
-fi	
+fi
 }
 
-bt()
-{
+bt(){
 echo -e "\e[1;32mUpdating Backtrack\e[0m"
-	apt-get update; 
-	apt-get upgrade -y; 
-	apt-get dist-upgrade -y; 
-	apt-get autoclean; 
-	apt-get clean; 
-	apt-get autoremove -y
+apt-get update 
+apt-get upgrade -y
+apt-get dist-upgrade -y
+apt-get autoclean
+apt-get clean
+apt-get autoremove -y
 }
 
-jigsaw()
-{
+jigsaw(){
 if [ -d /pentest/enumeration/jigsaw/.git ]; then 
 	echo -e "\e[1;32mUpdating Jigsaw\e[0m"
-	cd /pentest/enumeration/jigsaw; 
-	git pull;
-	cd
+	cd /pentest/enumeration/jigsaw
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Jigsaw\e[0m"
-	rm -rf /pentest/enumeration/jigsaw/;
+	rm -rf /pentest/enumeration/jigsaw/
 	git clone git://github.com/pentestgeek/jigsaw.git /pentest/enumeration/jigsaw/
 fi
 }
 
-dnsrecon()
-{
+dnsrecon(){
 if [ -d /pentest/enumeration/dns/dnsrecon/.git ]; then 
 	echo -e "\e[1;32mUpdating Dnsrecon\e[0m"
-	cd /pentest/enumeration/dns/dnsrecon;
-	git pull;
-	cd
+	cd /pentest/enumeration/dns/dnsrecon
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Dnsrecon\e[0m"
-	rm -rf /pentest/enumeration/dns/dnsrecon/;
+	rm -rf /pentest/enumeration/dns/dnsrecon/
 	git clone git://github.com/darkoperator/dnsrecon.git /pentest/enumeration/dns/dnsrecon/
-fi 
+fi
 }
 
-theharvester()
-{
+theharvester(){
 if [ -d /pentest/enumeration/theharvester/.svn ]; then 
 	echo -e "\e[1;32mUpdating TheHarvester\e[0m"
-	cd /pentest/enumeration/theharvester; 
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/enumeration/theharvester 
+	svn cleanup
+	svn update
 else 
 	echo -e "\e[1;33mInstalling theHarvester\e[0m"
-	rm -rf /pentest/enumeration/theharvester/;
+	rm -rf /pentest/enumeration/theharvester/
 	svn co http://theharvester.googlecode.com/svn/trunk/ /pentest/enumeration/theharvester/ 
 fi
 }
 
-recon()
-{
+recon(){
 if [ -d /pentest/enumeration/recon-ng/.git ]; then 
 	echo -e "\e[1;32mUpdating Recon-ng\e[0m"
-	cd /pentest/enumeration/recon-ng; 
-	git pull;
-	cd
+	cd /pentest/enumeration/recon-ng
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Recon-ng\e[0m"
 	git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git /pentest/enumeration/recon-ng/
 fi
 }
 
-ghost()
-{
+ghost(){
 if [ -d /pentest/sniffers/ghost-phisher/.svn ]; then 
 	echo -e "\e[1;32mUpdating Ghost Phisher\e[0m"
-	cd /pentest/sniffers/ghost-phisher; 
-	svn cleanup; 
-	svn update;
-	cd
+	cd /pentest/sniffers/ghost-phisher
+	svn cleanup 
+	svn update
 else 
 	echo -e "\e[1;33mInstalling Ghost Phisher\e[0m"
-	svn co http://ghost-phisher.googlecode.com/svn/Ghost-Phisher/ /pentest/sniffers/ghost-phisher/; 
+	svn co http://ghost-phisher.googlecode.com/svn/Ghost-Phisher/ /pentest/sniffers/ghost-phisher/ 
 	chmod 755 /pentest/sniffers/ghost-phisher/ghost.py
 fi
 }
 
-beef()
-{
+beef(){
 if [ -d /pentest/web/beef/.git ]; then 
 	echo -e "\e[1;32mUpdating Beef\e[0m"
-	cd /pentest/web/beef; 
-	git pull;
-	cd
+	cd /pentest/web/beef
+	git pull
 else 
 	echo -e "\e[1;33mInstalling Beef\e[0m"
-	rm -rf /pentest/web/beef;
+	rm -rf /pentest/web/beef
 	git clone https://github.com/beefproject/beef.git /pentest/web/beef
 fi
 }
 
-spf()
-{
+spf(){
 if [ -d /pentest/exploits/smartphone-pentest-framework/.git ]; then
 	echo -e "\e[1;32mUpdating Smartphone-pentest-framework\e[0m"
-	cd /pentest/exploits/smartphone-pentest-framework;
-	git pull;
-	cd
+	cd /pentest/exploits/smartphone-pentest-framework
+	git pull
 else
 	echo -e "\e[1;33mInstalling Smartphone-pentest-framework\e[0m"
-	rm -rf /pentest/exploits/smartphone-pentest-framework;
+	rm -rf /pentest/exploits/smartphone-pentest-framework
 	git clone https://github.com/georgiaw/Smartphone-Pentest-Framework.git /pentest/exploits/smartphone-pentest-framework
 fi 
 }
 
-script_update()
-{ 
-	echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
-	cd /root/backtrack-scripts; 
-	git pull;
-	sleep 2;
-	cd	
+script_update(){ 
+echo -e "\e[1;32mUpdating Backtrack-Scripts\e[0m"
+cd /root/backtrack-scripts 
+git pull
 }
 
-nmap()
-{
+nmap(){
 if [ -d /opt/nmap-svn/.svn ]; then
-
 	echo -e "\e[1;32mUpdating Nmap\e[0m"
-	cd /opt/nmap-svn/;
-	svn cleanup;
-	svn update;
-	cd;
-	cp /opt/nmap-svn/nmap /usr/local/bin/;
-	cp /opt/nmap-svn/nmap-mac-prefixes /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-os-db /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-payloads /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-protocols /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-rpc /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-service-probes /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nmap-services /usr/local/share/nmap/;
-	cp /opt/nmap-svn/nse_main.lua /usr/local/share/nmap/;
-	cp -r /opt/nmap-svn/nselib/ /usr/local/share/nmap/;
+	cd /opt/nmap-svn/
+	svn cleanup
+	svn update
+	cp /opt/nmap-svn/nmap /usr/local/bin/
+	cp /opt/nmap-svn/nmap-mac-prefixes /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-os-db /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-payloads /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-protocols /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-rpc /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-service-probes /usr/local/share/nmap/
+	cp /opt/nmap-svn/nmap-services /usr/local/share/nmap/
+	cp /opt/nmap-svn/nse_main.lua /usr/local/share/nmap/
+	cp -r /opt/nmap-svn/nselib/ /usr/local/share/nmap/
 	cp -r /opt/nmap-svn/scripts/ /usr/local/share/nmap/ 
 else
 	echo -e "\e[1;33mRemoving nmap files and folders\e[0m"
@@ -534,38 +418,35 @@ else
 	echo
 	echo -e "\e[1;33mInstalling nmap from svn\e[0m"
 	svn co https://svn.nmap.org/nmap/ /opt/nmap-svn/
-	cd /opt/nmap-svn/;
+	cd /opt/nmap-svn/
 	./configure && make && make install
 	echo
 	echo -e "\e[1;32mUpdating locate db\e[0m"
 	updatedb
 fi
 }
-wifite()
-{
+
+wifite(){
 if [ -d /pentest/wireless/wifite/.svn ]; then 
 	echo -e "\e[1;32mUpdating WiFite\e[0m"
-	cd /pentest/wireless/wifite; 
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/wireless/wifite 
+	svn cleanup
+	svn update
 else 
 	echo -e "\e[1;33mInstalling WiFite\e[0m"
-	rm -rf /pentest/wireless/wifite/;
+	rm -rf /pentest/wireless/wifite/
 	svn co http://wifite.googlecode.com/svn/trunk/ /pentest/wireless/wifite/
 fi
 }
 
-weevely()
-{
+weevely(){
 if [ -d /pentest/backdoors/web/weevely/.git ]; then
 	echo -e "\e[1;32mUpdating Weevely\e[0m"
-	cd /pentest/backdoors/web/weevely;
-	git pull;
-	cd
+	cd /pentest/backdoors/web/weevely
+	git pull
 else
 	echo -e "\e[1;33mInstalling weevely\e[0m"
-	rm -rf /pentest/backdoors/web/weevely;
+	rm -rf /pentest/backdoors/web/weevely
 	git clone https://github.com/epinna/Weevely.git /pentest/backdoors/web/weevely
 fi 
 }
@@ -574,75 +455,68 @@ hexorbase()
 {
 if [ -d /pentest/database/hexorbase/.svn ]; then 
 	echo -e "\e[1;32mUpdating HexorBase\e[0m"
-	cd /pentest/database/hexorbase;
-	svn cleanup;
-	svn update;
-	cd
+	cd /pentest/database/hexorbase
+	svn cleanup
+	svn update
 else 
 	echo -e "\e[1;33mInstalling HexorBase\e[0m"
-	rm -rf /pentest/database/hexorbase;
+	rm -rf /pentest/database/hexorbase
 	svn co http://hexorbase.googlecode.com/svn/HexorBase/ /pentest/database/hexorbase/
 fi
 }
 
-dnsenum()
-{
+dnsenum(){
 if [ -d /pentest/enumeration/dns/dnsenum/.svn ]; then 
 	echo -e "\e[1;32mUpdating DnsEnum\e[0m"
-	cd /pentest/enumeration/dns/dnsenum; 
-	svn cleanup; 
-	svn update;
-	cd
+	cd /pentest/enumeration/dns/dnsenum 
+	svn cleanup 
+	svn update
 else 
 	echo -e "\e[1;33mInstalling DnsEnum\e[0m"
-	rm -rf /pentest/enumeration/dns/dnsenum/;
+	rm -rf /pentest/enumeration/dns/dnsenum/
 	svn co http://dnsenum.googlecode.com/svn/trunk/ /pentest/enumeration/dns/dnsenum/
 fi
 }
 
-updateall()
-{
+updateall(){
+bt
 aircrack
-wpscan
+beef
+dnsenum
+dnsrecon
 exploitdb
 fasttrack
-sqlmap
-giskismet
-w3af
-nikto
-subterfuge
 fern
-Set
+ghost
+giskismet
+theharvester
+hexorbase
+jigsaw
 joomscan
 msf
-bt
-jigsaw
-dnsrecon
-theharvester
-recon
-ghost
-beef
-spf
-script_update
+nikto
 nmap
-wifite
+recon
+script_update
+Set
+spf
+sqlmap
+subterfuge
+w3af
 weevely
-hexorbase
-dnsenum
+wifite
+wpscan
 }
 
-error()
-{	
-	echo
-	echo -e "\e[1;31mError, That is not valid Input, Please pick a number from menu, Returning to menu\e[0m"
-	sleep 4
+error(){	
+echo
+echo -e "\e[1;31mError, That is not valid input. Please choose a number from menu. Returning to menu.\e[0m"
+sleep 4
 }
 
-######################################################## End of functions ######################
-
-############################################################## Program starts###################
+########## Program starts ##########
 
 while : 
 do
-menu
+	menu
 done
