@@ -82,7 +82,10 @@ echo -e "\e[1;31m24) Wifite\e[0m"
 echo -e "\e[1;31m25) Weevely\e[0m"
 echo -e "\e[1;31m26) Hexorbase\e[0m"
 echo -e "\e[1;31m27) DnsEnum\e[0m"
-echo -e "\e[1;31m28) UpdateAll\e[0m"
+echo -e "\e[1;31m28) EasyCred\e[0m"
+echo -e "\e[1;31m29) GooFile\e[0m"
+echo -e "\e[1;31m30) Horst\e[0m"
+echo -e "\e[1;31m31) UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
@@ -119,7 +122,10 @@ case $option in
 	25) weevely;;
 	26) hexorbase;;
 	27) dnsenum;;
-	28) updateall;;
+	28) easycred;;
+	29) goofile;;
+	30) horst;;
+	31) updateall;;
 	99) menu;;
 	*) error;;
 esac
@@ -451,8 +457,7 @@ else
 fi 
 }
 
-hexorbase()
-{
+hexorbase(){
 if [ -d /pentest/database/hexorbase/.svn ]; then 
 	echo -e "\e[1;32mUpdating HexorBase\e[0m"
 	cd /pentest/database/hexorbase
@@ -475,6 +480,44 @@ else
 	echo -e "\e[1;33mInstalling DnsEnum\e[0m"
 	rm -rf /pentest/enumeration/dns/dnsenum/
 	svn co http://dnsenum.googlecode.com/svn/trunk/ /pentest/enumeration/dns/dnsenum/
+fi
+}
+
+easycred(){
+if [ -d /pentest/scanners/easy-creds/.git ]; then 
+	echo -e "\e[1;32mUpdating Easy-Creds\e[0m"
+	cd /pentest/scanners/easy-creds/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling Easy-Creds\e[0m"
+	rm -rf /pentest/scanners/easy-creds/
+	git clone https://github.com/brav0hax/easy-creds.git /pentest/scanners/easy-creds/
+fi
+}
+
+goofile(){
+if [ -d /pentest/enumeration/google/goofile/.svn ]; then 
+	echo -e "\e[1;32mUpdating Goofile\e[0m"
+	cd /pentest/enumeration/google/goofile
+	svn up
+else 
+	echo -e "\e[1;33mInstalling Goofile\e[0m"
+	rm -rf /pentest/enumeration/google/goofile/
+	svn co http://goofile.googlecode.com/svn/trunk/ /pentest/enumeration/google/goofile/
+fi
+}
+
+horst(){
+if [ -d /pentest/wireless/horst/.git ]; then 
+	echo -e "\e[1;32mUpdating HORST\e[0m"
+	cd /pentest/wireless/horst/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling HORST\e[0m"
+	rm -rf /pentest/wireless/horst/
+	git clone git://github.com/br101/horst.git /pentest/wireless/horst/
+	cd /pentest/wireless/horst/
+	make
 fi
 }
 
@@ -506,6 +549,9 @@ wifite
 weevely
 hexorbase
 dnsenum
+easycred
+goofile
+horst
 }
 
 error(){	

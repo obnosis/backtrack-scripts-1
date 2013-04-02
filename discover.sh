@@ -265,14 +265,14 @@ case $choice in
      total=20
 
      echo "goofile                   (1/$total)"
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f xls > tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f xlsx >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f ppt >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f pptx >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f doc >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f docx >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f pdf >> tmp
-     /pentest/enumeration/google/goofile/goofile.py -d $domain -f txt >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f xls > tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f xlsx >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f ppt >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f pptx >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f doc >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f docx >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f pdf >> tmp
+     python /pentest/enumeration/google/goofile/goofile.py -d $domain -f txt >> tmp
 
      grep $domain tmp | grep -v 'Searching in' | sort > tmp2
 
@@ -2804,7 +2804,6 @@ msfconsole -r /opt/scripts/resource/listener.rc
 }
 
 ##############################################################################################################
-
 
 
 ##############################################################################################################
