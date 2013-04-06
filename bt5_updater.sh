@@ -85,7 +85,9 @@ echo -e "\e[1;31m27) DnsEnum\e[0m"
 echo -e "\e[1;31m28) EasyCred\e[0m"
 echo -e "\e[1;31m29) GooFile\e[0m"
 echo -e "\e[1;31m30) Horst\e[0m"
-echo -e "\e[1;31m31) UpdateAll\e[0m"
+echo -e "\e[1;31m31) Dnsmap\e[0m"
+echo -e "\e[1;31m32) Dnswalk\e[0m"
+echo -e "\e[1;31m33) UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
@@ -125,7 +127,9 @@ case $option in
 	28) easycred;;
 	29) goofile;;
 	30) horst;;
-	31) updateall;;
+	31) dnsmap;;
+	32) dnswalk;;
+	33) updateall;;
 	99) menu;;
 	*) error;;
 esac
@@ -521,6 +525,30 @@ else
 fi
 }
 
+dnsmap(){
+if [ -d /pentest/enumeration/dns/dnsmap/.git ]; then 
+	echo -e "\e[1;32mUpdating Dnsmap\e[0m"
+	cd /pentest/enumeration/dns/dnsmap/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling Dnsmap\e[0m"
+	rm -rf /pentest/enumeration/dns/dnsmap/
+	git clone git://github.com/makefu/dnsmap.git /pentest/enumeration/dns/dnsmap/
+fi
+}
+
+dnswalk(){
+if [ -d /pentest/enumeration/dns/dnswalk/.git ]; then 
+	echo -e "\e[1;32mUpdating Dnswalk\e[0m"
+	cd /pentest/enumeration/dns/dnswalk/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling Dnswalk\e[0m"
+	rm -rf /pentest/enumeration/dns/dnswalk/
+	git clone git://github.com/davebarr/dnswalk.git /pentest/enumeration/dns/dnswalk/
+fi
+}
+
 updateall(){
 aircrack
 wpscan
@@ -552,6 +580,8 @@ dnsenum
 easycred
 goofile
 horst
+dnsmap
+dnswalk
 }
 
 error(){	

@@ -11,6 +11,7 @@
 # Matt Banick - original development.
 # Eric Milam - total re-write using functions.
 # Martin Bos - IDS evasion techniques.
+# Ben Wood - magic parsing with Perl
 # Numerous people on freenode IRC - #bash and #sed (e36freak)
 
 ##############################################################################################################
@@ -857,10 +858,38 @@ case $choice in
      *) f_Error;;
 esac
 
-# Thanks JK
-grep -E '([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})' -o tmp > /$user/hosts.txt
+##############################################################
 
-rm tmp*
+perl <<'EOF'
+# Author: Ben Wood
+# Description: Reads an nmap ping sweep and correctly identifies lives hosts
+
+use strict;
+
+undef $/; # Enable slurping
+
+open(my $handle, '<', "tmp");
+open(my $output, '>', "tmp2");
+while(<$handle>)
+{
+	# Read report lines
+	while (/((?:[\x00-\xFF]*?(?=Nmap\s+scan\s+report)|[\x00-\xFF]*))/mixg) {
+		my $report = $1;
+		
+		# Print IP if host is REALLY up
+		if (($report =~ /MAC\s+Address/mix) 
+		or ($report =~ /Nmap\s+scan\s+report\s+for\s+\S+?\s+\(\S+\)/mix)) {
+			my ($ip) = $report =~ /(\d+\.\d+\.\d+\.\d+)/mix;
+			print $output "$ip\n";
+		}
+	}
+}
+EOF
+
+##############################################################
+
+rm tmp
+mv tmp2 /$user/hosts.txt
 
 echo
 echo $break
@@ -2804,7 +2833,6 @@ msfconsole -r /opt/scripts/resource/listener.rc
 }
 
 ##############################################################################################################
-
 
 ##############################################################################################################
 
