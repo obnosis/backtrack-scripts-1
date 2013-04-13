@@ -87,7 +87,9 @@ echo -e "\e[1;31m29) GooFile\e[0m"
 echo -e "\e[1;31m30) Horst\e[0m"
 echo -e "\e[1;31m31) Dnsmap\e[0m"
 echo -e "\e[1;31m32) Dnswalk\e[0m"
-echo -e "\e[1;31m33) UpdateAll\e[0m"
+echo -e "\e[1;31m33) Lanmap\e[0m"
+echo -e "\e[1;31m34) Whatweb\e[0m"
+echo -e "\e[1;31m35) UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
@@ -129,7 +131,9 @@ case $option in
 	30) horst;;
 	31) dnsmap;;
 	32) dnswalk;;
-	33) updateall;;
+	33) lanmap;;
+	34) whatweb;;
+	35) updateall;;
 	99) menu;;
 	*) error;;
 esac
@@ -151,7 +155,7 @@ read option
 case $option in
 	1)
 	cd /pentest/enumeration/recon-ng
-	./recon-ng.py
+	./recon-ng.py -h
 	;;
 	2)
 	cd /pentest/sniffers/ghost-phisher
@@ -549,7 +553,32 @@ else
 fi
 }
 
+lanmap(){
+if [ -d /pentest/enumeration/lanmap2/.git ]; then 
+	echo -e "\e[1;32mUpdating Lanmap2\e[0m"
+	cd /pentest/enumeration/lanmap2/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling Lanmap2\e[0m"
+	rm -rf /pentest/enumeration/lanmap2/
+	git clone git://github.com/rflynn/lanmap2.git /pentest/enumeration/lanmap2/
+fi
+}
+
+whatweb(){
+if [ -d /pentest/enumeration/web/whatweb/.git ]; then 
+	echo -e "\e[1;32mUpdating WhatWeb\e[0m"
+	cd /pentest/enumeration/web/whatweb/
+	git pull
+else 
+	echo -e "\e[1;33mInstalling WhatWeb.\e[0m"
+	rm -rf /pentest/enumeration/web/whatweb/
+	git clone git://github.com/urbanadventurer/WhatWeb.git /pentest/enumeration/web/whatweb/
+fi 
+}
+
 updateall(){
+bt
 aircrack
 wpscan
 exploitdb
@@ -563,7 +592,6 @@ fern
 Set
 joomscan
 msf
-bt
 jigsaw
 dnsrecon
 theharvester
@@ -582,6 +610,8 @@ goofile
 horst
 dnsmap
 dnswalk
+lanmap
+whatweb
 }
 
 error(){	
