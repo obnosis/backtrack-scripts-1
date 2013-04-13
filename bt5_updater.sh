@@ -571,7 +571,7 @@ if [ -d /pentest/enumeration/web/whatweb/.git ]; then
 	cd /pentest/enumeration/web/whatweb/
 	git pull
 else 
-	echo -e "\e[1;33mInstalling WhatWeb.\e[0m"
+	echo -e "\e[1;33mInstalling WhatWeb\e[0m"
 	rm -rf /pentest/enumeration/web/whatweb/
 	git clone git://github.com/urbanadventurer/WhatWeb.git /pentest/enumeration/web/whatweb/
 fi 
