@@ -155,18 +155,14 @@ read option
 case $option in
 	1)
 	cd /pentest/enumeration/recon-ng
-	./recon-ng.py -h
+	./recon-ng.py
 	;;
 	2)
 	cd /pentest/sniffers/ghost-phisher
 	./ghost.py
 	;;
-	99)
-	menu
-	;;
-	*)
-	error
-	;;
+	99)menu;;
+	*)error;;
 esac
 }
 
