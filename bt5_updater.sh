@@ -87,7 +87,7 @@ echo -e "\e[1;31m29) GooFile\e[0m"
 echo -e "\e[1;31m30) Horst\e[0m"
 echo -e "\e[1;31m31) Dnsmap\e[0m"
 echo -e "\e[1;31m32) Dnswalk\e[0m"
-echo -e "\e[1;31m33) Lanmap\e[0m"
+echo -e "\e[1;31m33) Lanmap2\e[0m"
 echo -e "\e[1;31m34) Whatweb\e[0m"
 echo -e "\e[1;31m35) UpdateAll\e[0m"
 echo
