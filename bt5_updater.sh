@@ -89,7 +89,10 @@ echo -e "\e[1;31m31) Dnsmap\e[0m"
 echo -e "\e[1;31m32) Dnswalk\e[0m"
 echo -e "\e[1;31m33) Lanmap2\e[0m"
 echo -e "\e[1;31m34) Whatweb\e[0m"
-echo -e "\e[1;31m35) UpdateAll\e[0m"
+echo -e "\e[1;31m35) JBoss Autopwn\e[0m"
+echo -e "\e[1;31m36) Netgear-Telnetenable\e[0m"
+echo -e "\e[1;31m37) Isr-Evilgrade\e[0m"
+echo -e "\e[1;31m38) UpdateAll\e[0m"
 echo
 echo -e "\e[1;31m99) Return to main menu\e[0m"
 echo
@@ -133,7 +136,10 @@ case $option in
 	32) dnswalk;;
 	33) lanmap;;
 	34) whatweb;;
-	35) updateall;;
+	35) jboss;;
+	36) netgear;;
+	37) isr;;
+	38) updateall;;
 	99) menu;;
 	*) error;;
 esac
@@ -573,6 +579,44 @@ else
 fi 
 }
 
+jboss(){
+if [ -d /pentest/exploits/jboss-autopwn/.git ]; then 
+	echo -e "\e[1;32mUpdating JBoss Autopwn\e[0m"
+	cd /pentest/exploits/jboss-autopwn
+	git pull
+else 
+	echo -e "\e[1;33mInstalling JBoss Autopwn\e[0m"
+	rm -rf /pentest/exploits/jboss-autopwn/
+	git clone git://github.com/SpiderLabs/jboss-autopwn.git /pentest/exploits/jboss-autopwn/
+fi
+}
+
+netgear(){
+if [ -d /pentest/exploits/netgear-telnetenable/.svn ]; then 
+	echo -e "\e[1;32mUpdating Netgear-Telnetenable\e[0m"
+	cd /pentest/exploits/netgear-telnetenable
+	svn cleanup
+	svn update
+else 
+	echo -e "\e[1;33mInstalling Netgear-Telnetenable\e[0m"
+	rm -rf /pentest/exploits/netgear-telnetenable/
+	svn co http://netgear-telnetenable.googlecode.com/svn/trunk/ /pentest/exploits/netgear-telnetenable/
+fi
+}
+
+isr(){
+if [ -d /pentest/exploits/isr-evilgrade/.svn ]; then 
+	echo -e "\e[1;32mUpdating Isr-Evilgrade\e[0m"
+	cd /pentest/exploits/isr-evilgrade
+	svn cleanup
+	svn update
+else 
+	echo -e "\e[1;33mInstalling Isr-Evilgrade\e[0m"
+	rm -rf /pentest/exploits/isr-evilgrade/
+	svn checkout http://isr-evilgrade.googlecode.com/svn/trunk/ /pentest/exploits/isr-evilgrade/
+fi
+}
+
 updateall(){
 bt
 aircrack
@@ -608,6 +652,9 @@ dnsmap
 dnswalk
 lanmap
 whatweb
+jboss
+netgear
+isr
 }
 
 error(){	
