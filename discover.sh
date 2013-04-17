@@ -2622,29 +2622,24 @@ while read -r line; do
 
                ISSUER=$(cat ssltmp_$line | grep 'Issuer:')
                if [[ $ISSUER ]]; then
-                    echo [INFO] Certificate Issuer >> ssl_$line.txt
                     cat ssltmp_$line | grep 'Issuer:' >> ssl_$line.txt
                     echo >> ssl_$line.txt
                else
-                    echo [INFO] Certificate Issuer >> ssl_$line.txt
                     echo "Issuer information not available for this certificate. Look into this!" >> ssl_$line.txt
                     echo >> ssl_$line.txt
                fi
 
                SUBJECT=$(cat ssltmp_$line | grep 'Subject:')
                if [[ $SUBJECT ]]; then
-                    echo [INFO] Certificate Subject >> ssl_$line.txt
                     cat ssltmp_$line | grep 'Subject:' >> ssl_$line.txt
                     echo >> ssl_$line.txt
                else
-                    echo [INFO] Certificate Subject >> ssl_$line.txt
                     echo "Certificate subject information not available. Look into this!" >> ssl_$line.txt
                     echo >> ssl_$line.txt
                fi
 
                DNS=$(cat ssltmp_$line | grep 'DNS:')
                if [[ $DNS ]]; then
-                    echo [INFO] Certificate DNS Names >> ssl_$line.txt
                     cat ssltmp_$line | grep 'DNS:' >> ssl_$line.txt
                     echo >> ssl_$line.txt
                fi
@@ -2840,8 +2835,6 @@ msfconsole -r /opt/scripts/resource/listener.rc
 while :
 do
 
-clear
-f_Banner
 f_Main
 
 f_Main(){
